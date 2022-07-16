@@ -15,18 +15,24 @@ sheet_list = [sheet for sheet in sheet_list if (sheet.upper()) in month_yr_1 or 
 print(sheet_list)
 
 def read_excel_sheets(file_name,sheet):
-    df = pd.read_excel(file_name,sheet_name = sheet)
-    print(f'reading file {file_name} {sheet}')
-    if sheet.upper() in month_yr_1:
-        expiration_date = pd.to_datetime(sheet.upper(), format = "%b %y").replace(day=21)
-    elif sheet.upper() in month_yr_2:
-        expiration_date = pd.to_datetime(sheet.upper(), format = "%b%y").replace(day=21)
-    elif sheet.upper() in month_yr_3:
-        expiration_date = pd.to_datetime(sheet.upper(), format = "%b %Y").replace(day=21)
-    week_start = expiration_date  + relativedelta(months=-1)
-    week_start = week_start.replace(day=20)
-    df['effective_date'] = week_start
-    df['expiration_date'] = expiration_date
+    df = pd.read_excel(file_name,sheet)
+    print(df.shape)
+    print(f'now doing {sheet}{file_name}')
+    print(df.columns)
+    col_ = list(df.columns[:5])
+    col_.remove(col_[0])
+    col_=col_[0]
+    if 'Unnamed' in col_:
+        df.columns = df.iloc[0]
+        df = df.drop(df.index[[0]])
+    df = df.filter(regex='(?i)^(?!NaN).+', axis=1)
+    df['source'] = file_name
+    df = df.dropna(axis=1, how='all')
+    new_col = list(df.columns)
+    new_col = [c for c in new_col if 'SAMPLE' in str(c)]
+    if 'SAMPLE' in new_col:
+        df = df.rename(columns ={'SAMPLE':'sample'})
+    print(df.columns)
     return df
   
 threads=list()
