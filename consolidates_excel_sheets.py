@@ -38,5 +38,5 @@ for thread in threads:
 
 df = pd.concat(frame)
 target_path = TARGET_PATH
-df.csv(target_path) 
+df.to_csv(target_path) 
   
