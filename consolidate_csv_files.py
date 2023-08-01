@@ -12,11 +12,11 @@ class Consolidate_CSV():
         #List File Names from path
         file_names = [f for f in listdir(self.file_path) if isfile(join(self.file_path, f)) ]
         #Filter CSV Files from the path
-        file_names = [f for in file_names if ".csv" in f.lower()]
+        self.file_names = [f for in file_names if ".csv" in f.lower()]
 
     def read_csv(self):
         main_frame = list()
-        for file in file_names:
+        for file in self.file_names:
             df = pd.read_csv(join(self.file_path,file))
             """Insert Transformation here"""
             main_frame.append(df)
@@ -30,6 +30,6 @@ if __name__ =="__main__":
     output_path =  OUTPUT_PATH # DEFINE the file path on where to put the Consolidated file 
     output_file_name = OUTPUT_FILE_NAME #  Define the Output FileName
     x= Consolidate_CSV(file_path,output_path,output_file_name)
-    x.main()
+    x.read_csv()
 
         
