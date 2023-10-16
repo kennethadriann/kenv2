@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 
 month_yr = pd.date_range(start='2021-01-01',end = pd.datetime.today(),freq = 'MS')
 month_yr = [str(date.strftime('%b %y')).upper() for date in month_yr]
-fname = '{FILENAME}.xlsx'
+fname = f'{FILENAME}.xlsx'
 file_name = pd.ExcelFile(fname)
 sheet_list = file_name.sheet_names
 sheet_list = [sheet for sheet in sheet_list if (sheet.upper()) in month_yr]
